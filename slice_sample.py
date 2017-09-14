@@ -1,5 +1,5 @@
 """
-This is the slice sampler from the old spearmint repo.
+This is based on the slice sampler from the old spearmint repo.
 I've added the possibility to set constraints so that
 the sampler doesn't explore areas that we know are badly defined.
 """
@@ -35,8 +35,6 @@ def slice_sample(init_x, logprob, sigma=1.0, bounds=None,
                           region will be expanded to contain all the relevant
                           probability mass
     """
-    # TODO: rarely returns a sample outside of bounds
-
     def direction_slice(direction, init_x, z_lim=None):
         def dir_logprob(z):
             return logprob(direction * z + init_x)
@@ -46,7 +44,7 @@ def slice_sample(init_x, logprob, sigma=1.0, bounds=None,
         if z_lim is not None:
             lower = max(lower, z_lim[0])
             upper = min(upper, z_lim[1])
-        
+
         # initialise at a value slightly lower than logprob(init_x)
         llh_s = np.log(npr.rand()) + dir_logprob(0.0)
 
