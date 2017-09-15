@@ -93,6 +93,7 @@ def slice_sample(init_x, logprob, sigma=1.0, bounds=None,
         if verbose:
             print("Steps Out:", l_steps_out,
                   u_steps_out, " Steps In:", steps_in)
+            print("function value at sample =", new_llh)
 
         return new_z * direction + init_x
 
@@ -114,4 +115,10 @@ def slice_sample(init_x, logprob, sigma=1.0, bounds=None,
         # as these will satisfy all constraints
         z_lim = z_lim[np.argmin(np.abs(z_lim), 0), np.arange(2)]
 
-    return direction_slice(direction, init_x, z_lim=z_lim)
+    # return direction_slice(direction, init_x, z_lim=z_lim)
+    sample = direction_slice(direction, init_x, z_lim=z_lim)
+
+    if verbose:
+        print("sample is:\n", sample)
+
+    return sample
