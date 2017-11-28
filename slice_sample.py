@@ -8,7 +8,8 @@ import numpy.random as npr
 
 
 def slice_sample(init_x, logprob, sigma=1.0, bounds=None,
-                 step_out=True, max_steps_out=1000, verbose=False):
+                 step_out=True, max_steps_out=1000, max_steps_in=100,
+                 verbose=False):
     """
     Return a sample via slice sampling.
 
@@ -89,6 +90,13 @@ def slice_sample(init_x, logprob, sigma=1.0, bounds=None,
                         upper = z_lim[1]
             else:
                 raise Exception("Slice sampler shrank to zero!")
+
+            if steps_in > max_steps_in:
+                if verbose:
+                    print("Step-in limit reached.")
+                break
+            if verbose:
+                print("Stepping in. {}".format(steps_in))
 
         if verbose:
             print("Steps Out:", l_steps_out,
